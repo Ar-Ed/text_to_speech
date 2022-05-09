@@ -16,7 +16,8 @@ def handle_entry(input, is_save, is_speak, is_file, output_name, lang):
    output_name = output_name + ".mp3"
    
    if is_file:
-      _file_to_speech(input, output_name, lang)
+      with open(input, "r") as file:
+         _text_to_speech(file.read(), output_name, lang)
    else: 
       _text_to_speech(input, output_name, lang)
 
@@ -28,12 +29,6 @@ def _play_sound(file_name, is_save):
    if not is_save:
       os.remove(file_name)          # delete mp3
 
-
-def _file_to_speech(file_name, output_name, lang):
-   with open(file_name, "r") as file:
-      tts = gTTS(file.read(), lang=lang)       # text -> speech
-      tts.save(output_name)         # save speech to mp3
-
 def _text_to_speech(text, output_name, lang):
-   tts = gTTS(text)                 # text -> speech
+   tts = gTTS(text, lang=lang)                 # text -> speech
    tts.save(output_name)            # save speech to mp3
